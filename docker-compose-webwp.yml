@@ -1,0 +1,49 @@
+version: '3'
+services:
+  php:
+    image: apache-wp
+    restart: always
+    volumes:
+      - ./:/web-wp
+    working_dir: /web-wp
+    ports:
+      - 80:80
+    links:
+      - mysql
+  php80:
+    image: apache-wp-8.0
+    restart: always
+    volumes:
+      - ./:/web-wp
+    working_dir: /web-wp
+    ports:
+      - 80:80
+    links:
+      - mysql      
+  php81:
+    image: apache-wp-8.1
+    restart: always
+    volumes:
+      - ./:/web-wp
+    working_dir: /web-wp
+    ports:
+      - 80:80
+    links:
+      - mysql      
+  mysql :
+    image: mysql/mysql-server
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    volumes:
+      - ./:/mysql
+      - dbdata:/var/lib/mysql
+    ports:
+      - 3306:3306
+    environment:
+      - MYSQL_USER=admin
+      - MYSQL_PASSWORD=password123
+      - MYSQL_ROOT_PASSWORD=password123
+      - MYSQL_ROOT_HOST=%
+    working_dir: /mysql
+volumes:
+  dbdata:
